@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}CloudApp{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #0d1117;
+      --bg2:        #161b22;
+      --bg3:        #21262d;
+      --border:     #30363d;
+      --text:       #e6edf3;
+      --muted:      #8b949e;
+      --accent:     #ff9900;
+      --accent2:    #1a73e8;
+      --success:    #3fb950;
+      --danger:     #f85149;
+      --warning:    #d29922;
+      --radius:     10px;
+      --font:       'IBM Plex Sans', system-ui, sans-serif;
+      --mono:       'IBM Plex Mono', monospace;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+    .nav-brand {
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      letter-spacing: -0.3px;
+    }
+    .nav-brand svg { width:24px; height:24px; }
+    .nav-links { display: flex; gap: 8px; align-items: center; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      padding: 6px 14px;
+      border-radius: 6px;
+      transition: background .15s, color .15s;
+    }
+    .nav-links a:hover { background: var(--bg3); color: var(--text); }
+    .nav-links a.btn-logout {
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .nav-links a.btn-logout:hover { border-color: var(--danger); color: var(--danger); }
+
+    /* FLASH MESSAGES */
+    .flash-container { padding: 12px 2rem 0; }
+    .flash {
+      padding: 10px 16px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      margin-bottom: 8px;
+      border-left: 3px solid;
+    }
+    .flash.success { background: #0d2218; border-color: var(--success); color: var(--success); }
+    .flash.error   { background: #200d0d; border-color: var(--danger);  color: var(--danger); }
+    .flash.warning { background: #1e1a0d; border-color: var(--warning); color: var(--warning); }
+    .flash.info    { background: #0d1620; border-color: var(--accent2); color: var(--accent2); }
+
+    /* MAIN CONTENT */
+    main { padding: 2.5rem 2rem; max-width: 1200px; margin: 0 auto; }
+
+    /* CARDS */
+    .card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+    }
+
+    /* FORM ELEMENTS */
+    .form-group { margin-bottom: 1.25rem; }
+    label { display: block; font-size: 13px; font-weight: 500; color: var(--muted); margin-bottom: 6px; letter-spacing: .3px; }
+    input[type=text], input[type=email], input[type=password] {
+      width: 100%;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 15px;
+      padding: 10px 14px;
+      transition: border-color .15s, box-shadow .15s;
+      outline: none;
+    }
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(255,153,0,.12);
+    }
+    input::placeholder { color: #484f58; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 22px;
+      border-radius: 6px;
+      font-family: var(--font);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: filter .15s, transform .1s;
+    }
+    .btn:hover  { filter: brightness(1.1); }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary { background: var(--accent); color: #111; }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+    .btn-full { width: 100%; justify-content: center; }
+
+    /* DIVIDER */
+    .divider {
+      display: flex; align-items: center; gap: 12px;
+      color: var(--muted); font-size: 13px; margin: 1.5rem 0;
+    }
+    .divider::before, .divider::after {
+      content:''; flex:1; height:1px; background: var(--border);
+    }
+
+    /* BADGE */
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .badge-success { background: #0d2218; color: var(--success); border: 1px solid #1a4428; }
+    .badge-info    { background: #0d1620; color: var(--accent2); border: 1px solid #1a2e4a; }
+
+    /* REGION TAG */
+    .region-tag {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+  </style>
+  {% block extra_styles %}{% endblock %}
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="{{ url_for('index') }}">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+    </svg>
+    CloudApp
+  </a>
+  <div class="nav-links">
+    {% if session.get('user_id') %}
+      <span style="color:var(--muted);font-size:13px">{{ session.username }}</span>
+      <a href="{{ url_for('logout') }}" class="btn-logout">Sign out</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">Sign in</a>
+      <a href="{{ url_for('signup') }}" style="background:var(--accent);color:#111;padding:6px 14px;border-radius:6px;font-weight:500;">Sign up</a>
+    {% endif %}
+  </div>
+</nav>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-container">
+      {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<main>
+  {% block content %}{% endblock %}
+</main>
+
+</body>
+</html>

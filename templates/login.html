@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Sign In — CloudApp{% endblock %}
+
+{% block extra_styles %}
+<style>
+  .auth-wrap {
+    min-height: calc(100vh - 56px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .auth-box {
+    width: 100%;
+    max-width: 400px;
+  }
+  .auth-header { text-align: center; margin-bottom: 2rem; }
+  .auth-header h1 { font-size: 24px; font-weight: 600; margin-bottom: 6px; }
+  .auth-header p { color: var(--muted); font-size: 14px; }
+  .aws-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+  .aws-logo span { color: var(--accent); font-weight: 600; }
+  .signup-link { text-align: center; margin-top: 1.5rem; font-size: 14px; color: var(--muted); }
+  .signup-link a { color: var(--accent); text-decoration: none; font-weight: 500; }
+  .signup-link a:hover { text-decoration: underline; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-wrap">
+  <div class="auth-box">
+    <div class="auth-header">
+      <div class="aws-logo">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--accent)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        <span>AWS</span> Mumbai Region (ap-south-1)
+      </div>
+      <h1>Welcome back</h1>
+      <p>Sign in to your CloudApp account</p>
+    </div>
+
+    <div class="card">
+      <form method="POST" action="{{ url_for('login') }}">
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email"/>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="••••••••" required autocomplete="current-password"/>
+        </div>
+        <div style="margin-top: 1.5rem;">
+          <button type="submit" class="btn btn-primary btn-full">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
+            Sign in
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <p class="signup-link">
+      Don't have an account? <a href="{{ url_for('signup') }}">Create one →</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

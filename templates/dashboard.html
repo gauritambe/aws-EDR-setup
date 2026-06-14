@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — CloudApp{% endblock %}
+
+{% block extra_styles %}
+<style>
+  .welcome-banner {
+    background: linear-gradient(135deg, #1a1f2e 0%, #21262d 100%);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 1.75rem 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .welcome-banner h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+  .welcome-banner p { color: var(--muted); font-size: 14px; }
+  .avatar {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #e67700);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 600; color: #111;
+    flex-shrink: 0;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .stat-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+  }
+  .stat-card .stat-label { font-size: 12px; color: var(--muted); font-weight: 500; letter-spacing: .5px; text-transform: uppercase; margin-bottom: 6px; }
+  .stat-card .stat-value { font-size: 22px; font-weight: 600; }
+  .stat-card .stat-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .stat-card.green .stat-value { color: var(--success); }
+  .stat-card.amber .stat-value { color: var(--accent); }
+  .stat-card.blue  .stat-value { color: var(--accent2); }
+
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 600px) { .info-grid { grid-template-columns: 1fr; } }
+
+  .info-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; }
+  .info-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+  .info-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+  .info-row:last-child { border-bottom: none; }
+  .info-row span:first-child { color: var(--muted); }
+  .info-row span:last-child  { font-weight: 500; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="welcome-banner">
+  <div>
+    <h1>Welcome back, {{ user.username }} 👋</h1>
+    <p>You're logged into CloudApp running on <span class="region-tag">ap-south-1 Mumbai</span></p>
+  </div>
+  <div class="avatar">{{ user.username[0].upper() }}</div>
+</div>
+
+<div class="stats-grid">
+  <div class="stat-card green">
+    <div class="stat-label">Status</div>
+    <div class="stat-value">Active</div>
+    <div class="stat-sub"><span class="badge badge-success">● Online</span></div>
+  </div>
+  <div class="stat-card amber">
+    <div class="stat-label">Region</div>
+    <div class="stat-value" style="font-size:15px; margin-top:4px">ap-south-1</div>
+    <div class="stat-sub">Mumbai Primary</div>
+  </div>
+  <div class="stat-card blue">
+    <div class="stat-label">DR Region</div>
+    <div class="stat-value" style="font-size:15px; margin-top:4px">ap-south-2</div>
+    <div class="stat-sub">Hyderabad Standby</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Joined</div>
+    <div class="stat-value" style="font-size:15px; margin-top:4px">
+      {{ user.created_at.strftime('%b %Y') if user.created_at else '—' }}
+    </div>
+    <div class="stat-sub">Member since</div>
+  </div>
+</div>
+
+<div class="info-grid">
+  <div class="info-card">
+    <h3>Account Details</h3>
+    <div class="info-row"><span>Username</span><span>{{ user.username }}</span></div>
+    <div class="info-row"><span>Email</span><span>{{ user.email }}</span></div>
+    <div class="info-row"><span>Account type</span><span><span class="badge badge-info">Standard</span></span></div>
+    <div class="info-row"><span>Created</span><span>{{ user.created_at.strftime('%d %b %Y') if user.created_at else '—' }}</span></div>
+  </div>
+  <div class="info-card">
+    <h3>Infrastructure</h3>
+    <div class="info-row"><span>Webserver</span><span><span class="badge badge-success">EC2 Running</span></span></div>
+    <div class="info-row"><span>Database</span><span><span class="badge badge-success">MySQL Active</span></span></div>
+    <div class="info-row"><span>S3 Bucket</span><span><span class="badge badge-success">Connected</span></span></div>
+    <div class="info-row"><span>EDR</span><span><span class="badge badge-info">Replicating</span></span></div>
+  </div>
+</div>
+{% endblock %}
