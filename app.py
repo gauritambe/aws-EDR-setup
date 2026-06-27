@@ -22,11 +22,11 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'change-me-in-production')
 
 # MySQL Config (DB Private Subnet via internal DNS / private IP)
-app.config['MYSQL_HOST']     = os.environ.get('DB_HOST', '10.0.3.10')  # DB private IP
-app.config['MYSQL_USER']     = os.environ.get('DB_USER', 'appuser')
-app.config['MYSQL_PASSWORD'] = os.environ.get('DB_PASS', 'StrongPass123!')
-app.config['MYSQL_DB']       = os.environ.get('DB_NAME', 'appdb')
-app.config['MYSQL_PORT']     = int(os.environ.get('DB_PORT', 3306))
+app.config['MYSQL_HOST']     = os.environ.get('DB_HOST')  # DB private IP
+app.config['MYSQL_USER']     = os.environ.get('DB_USER')
+app.config['MYSQL_PASSWORD'] = os.environ.get('DB_PASS')
+app.config['MYSQL_DB']       = os.environ.get('DB_NAME')
+app.config['MYSQL_PORT']     = int(os.environ.get('DB_PORT'))
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 mysql = MySQL(app)
