@@ -7,8 +7,8 @@ Ships logs to S3 bucket under logs/webserver/ or logs/db/
 
 import os, sys, boto3, datetime, logging, gzip, shutil
 
-S3_BUCKET  = os.environ.get('S3_BUCKET', 'my-app-bucket-mumbai')
-S3_REGION  = os.environ.get('AWS_REGION', 'ap-south-1')
+S3_BUCKET  = os.environ.get('S3_BUCKET')
+S3_REGION  = os.environ.get('AWS_REGION')
 NODE_TYPE  = os.environ.get('NODE_TYPE', 'webserver')   # 'webserver' or 'db'
 
 LOG_PATHS = {
